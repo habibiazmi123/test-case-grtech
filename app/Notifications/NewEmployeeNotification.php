@@ -40,12 +40,11 @@ class NewEmployeeNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('New Employee Added')
-            ->greeting('Dear, ' . $notifiable->name . ',')
+            ->greeting('Dear ' . $notifiable->name . ',')
             ->line('A new employee has joined your company.')
             ->line('Name: ' . $this->employee->full_name)
             ->line('Email: ' . $this->employee->email ?? '-')
-            ->line('Phone: ' . $this->employee->phone ?? '-')
-            ->action('View Employee', url('/employees/' . $this->employee->id));
+            ->line('Phone: ' . $this->employee->phone ?? '-');
     }
 
     /**

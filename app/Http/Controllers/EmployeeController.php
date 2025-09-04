@@ -18,7 +18,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::all(['id', 'name']);
+        $companies = Company::orderBy('name')->get(['id', 'name']);
 
         $query = Employee::with(['company:id,name,email,website,logo']);
 
