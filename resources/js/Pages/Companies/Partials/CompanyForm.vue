@@ -14,7 +14,7 @@ const props = defineProps({
         default: null,
     },
 });
-const emit = defineEmits(['update:open']);
+const emit = defineEmits(['update:open', 'refresh']);
 
 const confirmLoading = ref(false);
 const previewLogoUrl = ref(props.company?.logo || null);
@@ -47,6 +47,7 @@ const submit = () => {
         : route('companies.store');
 
     form.post(url, {
+        preserveScroll: true,
         forceFormData: true,
         onSuccess: () => {
             closeModal();

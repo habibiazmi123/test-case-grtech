@@ -4,7 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { Modal } from 'ant-design-vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const page = usePage();
 const props = defineProps({
@@ -14,7 +14,7 @@ const props = defineProps({
         default: null,
     },
 });
-const emit = defineEmits(['update:open']);
+const emit = defineEmits(['update:open', 'refresh']);
 
 const { companies } = page.props.filters;
 
@@ -36,6 +36,7 @@ const submit = () => {
         : route('employees.store');
 
     form.post(url, {
+        preserveScroll: true,
         forceFormData: true,
         onSuccess: () => {
             closeModal();

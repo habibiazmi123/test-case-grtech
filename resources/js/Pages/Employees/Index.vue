@@ -178,7 +178,11 @@ const onEdit = (employee) => {
                                             { class: 'font-medium text-gray-900' },
                                             record.full_name
                                         ),
-                                        h('span', { class: 'text-sm text-gray-500' }, record.email),
+                                        h(
+                                            'span',
+                                            { class: 'text-sm text-gray-500' },
+                                            record.email ?? '-'
+                                        ),
                                     ]),
                             },
                             {
@@ -196,7 +200,11 @@ const onEdit = (employee) => {
                                           )
                                         : '',
                             },
-                            { title: 'Phone', dataIndex: 'phone' },
+                            {
+                                title: 'Phone',
+                                dataIndex: 'phone',
+                                customRender: ({ record }) => record.phone ?? '-',
+                            },
                             {
                                 title: 'Actions',
                                 key: 'actions',
