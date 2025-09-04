@@ -1,0 +1,17 @@
+services:
+    app:
+        build:
+            target: dev
+        environment:
+            PHP_IDE_CONFIG: 'serverName=stage'
+        restart: unless-stopped
+        #ports:
+        #    - "9003:9003"
+
+    nginx:
+        restart: unless-stopped
+
+    mysql:
+        restart: unless-stopped
+        ports:
+            - '3306:3306'

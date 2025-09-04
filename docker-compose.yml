@@ -1,0 +1,68 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: .docker/php/Dockerfile
+            target: prod
+            args:
+                WWWUSER: ${WWWUSER}
+                WWWGROUP: ${WWWGROUP}
+        restart: always
+        container_name: grtech-app
+        working_dir: /var/www
+        volumes:
+            - .:/var/www:cached
+            - .docker/php/supervisord.conf:/etc/supervisord.conf
+            - .docker/php/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
+        depends_on:
+            - mysql
+            - mailpit
+        networks:
+            - grtech-network
+
+    nginx:
+        image: nginx:alpine
+        container_name: grtech-nginx
+        restart: always
+        ports:
+            - '80:80'
+        volumes:
+            - .:/var/www
+            - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - app
+        networks:
+            - grtech-network
+
+    mysql:
+        image: mysql:8.0.32
+        container_name: grtech-mysql
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - '3306:3306'
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - grtech-network
+
+    mailpit:
+        image: axllent/mailpit
+        container_name: grtech-mailpit
+        restart: always
+        ports:
+            - '8025:8025' # Web UI
+            - '1025:1025' # SMTP
+        networks:
+            - grtech-network
+
+volumes:
+    mysql_data:
+
+networks:
+    grtech-network:
+        driver: bridge
