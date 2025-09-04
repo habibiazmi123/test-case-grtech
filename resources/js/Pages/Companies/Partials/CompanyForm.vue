@@ -27,7 +27,7 @@ const form = useForm({
     name: props.company?.name || '',
     email: props.company?.email || '',
     logo: null,
-    website: props.company?.website || 'https://',
+    website: props.company?.website || '',
 });
 
 const handleLogoChange = (event) => {
