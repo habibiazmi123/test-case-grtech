@@ -129,8 +129,15 @@ http://localhost:8000
    make artisan key:generate
    make artisan storage:link
    ```
+   
+4. **Generate application key & Storage link**
 
-5. **Build frontend assets**
+   ```bash
+   make artisan key:generate
+   make artisan storage:link
+   ```
+
+6. **Build frontend assets**
 
    ```bash
    make npm install
@@ -140,7 +147,10 @@ http://localhost:8000
    The app will be available at:
    ```bash
    http://localhost
-
-   http://localhost:8025 for mailpit
    ```
 
+   The mailpit will be available at:
+   
+   ```bash
+   http://localhost:8025
+   ```
