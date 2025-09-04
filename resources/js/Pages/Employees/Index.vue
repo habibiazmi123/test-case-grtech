@@ -10,7 +10,7 @@ import {
     ExclamationCircleOutlined,
     SearchOutlined,
 } from '@ant-design/icons-vue';
-import { h, onMounted, ref } from 'vue';
+import { h, onMounted, ref, watch } from 'vue';
 import { debounce } from 'lodash';
 import CompanyInfoModal from './Partials/CompanyInfoModal.vue';
 import EmployeeForm from './Partials/EmployeeForm.vue';
@@ -36,6 +36,15 @@ onMounted(() => {
     companyId.value = params.get('company_id') || '';
 });
 
+watch(
+    () => employeeModalOpen.value,
+    (visible) => {
+        if (!visible && selectedEmployee.value) {
+            selectedEmployee.value = null;
+        }
+    }
+);
+
 const fetchData = (extra = {}) => {
     loading.value = true;
     router.get(
@@ -57,10 +66,14 @@ const onShowCompanyInfo = (employee) => {
     selectedEmployee.value = employee;
     companyInfoModalOpen.value = true;
 };
+
 const onSearch = debounce(() => fetchData(), 400);
+
 const onFilterCompany = () => fetchData();
+
 const onTableChange = (pagination) =>
     fetchData({ page: pagination.current, per_page: pagination.pageSize });
+
 const showConfirmDeletion = (employee) => {
     modal.confirm({
         title: 'Are you sure delete this employee?',
@@ -80,6 +93,7 @@ const showConfirmDeletion = (employee) => {
         },
     });
 };
+
 const onEdit = (employee) => {
     selectedEmployee.value = employee;
     employeeModalOpen.value = true;
@@ -154,7 +168,7 @@ const onEdit = (employee) => {
                                 align: 'center',
                             },
                             {
-                                title: 'NAME',
+                                title: 'Full name',
                                 width: 200,
                                 dataIndex: 'name',
                                 customRender: ({ record }) =>
@@ -168,7 +182,7 @@ const onEdit = (employee) => {
                                     ]),
                             },
                             {
-                                title: 'COMPANY',
+                                title: 'Company name',
                                 dataIndex: 'company',
                                 customRender: ({ record }) =>
                                     record.company
@@ -182,7 +196,7 @@ const onEdit = (employee) => {
                                           )
                                         : '',
                             },
-                            { title: 'PHONE', dataIndex: 'phone' },
+                            { title: 'Phone', dataIndex: 'phone' },
                             {
                                 title: 'Actions',
                                 key: 'actions',

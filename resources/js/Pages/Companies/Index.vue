@@ -57,8 +57,10 @@ const fetchData = (extra = {}) => {
 };
 
 const onSearch = debounce(() => fetchData(), 400);
+
 const onTableChange = (pagination) =>
     fetchData({ page: pagination.current, per_page: pagination.pageSize });
+
 const showConfirmDeletion = (company) => {
     modal.confirm({
         title: 'Are you sure delete this company?',
@@ -78,6 +80,7 @@ const showConfirmDeletion = (company) => {
         },
     });
 };
+
 const onEdit = (company) => {
     selectedCompany.value = company;
     companyModalOpen.value = true;
@@ -135,7 +138,7 @@ const onEdit = (company) => {
                                 align: 'center',
                             },
                             {
-                                title: 'LOGO',
+                                title: 'Logo',
                                 dataIndex: 'logo',
                                 width: 100,
                                 customRender: ({ record }) =>
@@ -146,7 +149,7 @@ const onEdit = (company) => {
                                     }),
                             },
                             {
-                                title: 'NAME',
+                                title: 'Name',
                                 width: 200,
                                 dataIndex: 'name',
                                 customRender: ({ record }) =>
@@ -164,7 +167,7 @@ const onEdit = (company) => {
                                     ]),
                             },
                             {
-                                title: 'WEBSITE',
+                                title: 'Website',
                                 dataIndex: 'website',
                                 customRender: ({ record }) =>
                                     h(

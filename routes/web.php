@@ -23,7 +23,10 @@ Route::middleware('auth')->group(function () {
             Route::post('{company}', [CompanyController::class, 'update'])->name('update');
         });
 
-        Route::resource('employees', EmployeeController::class);
+        Route::resource('employees', EmployeeController::class)->except(['edit', 'update']);
+        Route::prefix(('employees'))->name('employees.')->group(function () {
+            Route::post('{employee}', [EmployeeController::class, 'update'])->name('update');
+        });
     });
 });
 

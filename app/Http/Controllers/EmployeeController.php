@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateEmployeeRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\EmployeeCollection;
 use App\Models\Company;
 use App\Models\Employee;
+use App\Notifications\NewEmployeeNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -31,7 +33,7 @@ class EmployeeController extends Controller
             });
         });
 
-        $employees = $query->paginate($request->get('per_page', 10));
+        $employees = $query->orderBy('first_name', 'asc')->paginate($request->get('per_page', 10));
 
         return Inertia::render('Employees/Index', [
             'filters' => [
@@ -52,9 +54,16 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateEmployeeRequest $request)
     {
-        //
+        $payloads = $request->only(['company_id', 'first_name', 'last_name', 'email', 'phone']);
+
+        $employee = Employee::create($payloads);
+
+        $company = $employee->company;
+        $company->notify(new NewEmployeeNotification($employee));
+
+        toast_success('Employee successfully created!');
     }
 
     /**
@@ -76,9 +85,14 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CreateEmployeeRequest $request, string $id)
     {
-        //
+        $payloads = $request->only(['company_id', 'first_name', 'last_name', 'email', 'phone']);
+
+        $employee = Employee::findOrFail($id);
+        $employee->update($payloads);
+
+        toast_success('Employee successfully updated!');
     }
 
     /**

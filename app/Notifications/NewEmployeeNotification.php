@@ -11,6 +11,8 @@ class NewEmployeeNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $tries = 3;
+
     public $employee;
 
     /**
@@ -38,11 +40,11 @@ class NewEmployeeNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('New Employee Added')
-            ->greeting('Hello ' . $notifiable->name . ',')
+            ->greeting('Dear, ' . $notifiable->name . ',')
             ->line('A new employee has joined your company.')
             ->line('Name: ' . $this->employee->full_name)
-            ->line('Email: ' . $this->employee->email)
-            ->line('Phone: ' . $this->employee->phone)
+            ->line('Email: ' . $this->employee->email ?? '-')
+            ->line('Phone: ' . $this->employee->phone ?? '-')
             ->action('View Employee', url('/employees/' . $this->employee->id));
     }
 
@@ -56,5 +58,10 @@ class NewEmployeeNotification extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    public function backoff(): array
+    {
+        return [60, 300, 900];
     }
 }
