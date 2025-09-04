@@ -41,10 +41,35 @@ The application uses Laravel, and a database (PostgreSQL or MySQL), all running 
 
    ```bash
    cp .env.example .env
+
    php artisan key:generate
    php artisan storage:link
    ```
-4. **Run migrations & seed database**
+
+4. **Set up Database**
+
+   ```bash
+   DB_CONNECTION=mysql   # or pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306          # or 5432 for Postgres
+   DB_DATABASE=grtech
+   DB_USERNAME=root
+   DB_PASSWORD=secret
+   ```
+4. **Set up SMTP(Mail)**
+   
+   ```bash
+   MAIL_MAILER=smtp
+   MAIL_HOST=smtp.mailtrap.io
+   MAIL_PORT=2525
+   MAIL_USERNAME=your-username
+   MAIL_PASSWORD=your-password
+   MAIL_ENCRYPTION=tls
+   MAIL_FROM_ADDRESS=noreply@yourapp.com
+   MAIL_FROM_NAME="GRTech App"
+   ```
+
+5. **Run migrations & seed database**
 
    ```bash
    php artisan migrate --seed
