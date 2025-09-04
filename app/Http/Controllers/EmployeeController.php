@@ -61,7 +61,10 @@ class EmployeeController extends Controller
         $employee = Employee::create($payloads);
 
         $company = $employee->company;
-        $company->notify(new NewEmployeeNotification($employee));
+
+        if (!empty($company->email) && filter_var($company->email, FILTER_VALIDATE_EMAIL)) {
+            $company->notify(new NewEmployeeNotification($employee));
+        }
 
         toast_success('Employee successfully created!');
 
