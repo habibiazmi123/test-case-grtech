@@ -123,7 +123,10 @@ http://localhost:8000
 4. **Run migrations & seed database**
 
    ```bash
-   make artisan migrate --seed
+   make artisan migrate
+   make artisan db:seed
+
+   make artisan key:generate
    make artisan storage:link
    ```
 
@@ -137,5 +140,7 @@ http://localhost:8000
    The app will be available at:
    ```bash
    http://localhost
+
+   http://localhost:8025 for mailpit
    ```
 
