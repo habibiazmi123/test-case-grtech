@@ -14,7 +14,7 @@ const props = defineProps({
         default: null,
     },
 });
-const emit = defineEmits(['update:open', 'refresh']);
+const emit = defineEmits(['update:open']);
 
 const confirmLoading = ref(false);
 const previewLogoUrl = ref(props.company?.logo || null);
@@ -51,7 +51,6 @@ const submit = () => {
         forceFormData: true,
         onSuccess: () => {
             closeModal();
-            emit('refresh');
         },
         onFinish: () => {
             confirmLoading.value = false;

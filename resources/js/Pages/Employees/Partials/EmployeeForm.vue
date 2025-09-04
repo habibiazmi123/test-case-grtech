@@ -14,7 +14,7 @@ const props = defineProps({
         default: null,
     },
 });
-const emit = defineEmits(['update:open', 'refresh']);
+const emit = defineEmits(['update:open']);
 
 const { companies } = page.props.filters;
 
@@ -40,7 +40,6 @@ const submit = () => {
         forceFormData: true,
         onSuccess: () => {
             closeModal();
-            emit('refresh');
         },
         onFinish: () => {
             confirmLoading.value = false;

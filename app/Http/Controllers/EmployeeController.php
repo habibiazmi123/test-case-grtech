@@ -64,6 +64,8 @@ class EmployeeController extends Controller
         $company->notify(new NewEmployeeNotification($employee));
 
         toast_success('Employee successfully created!');
+
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -93,6 +95,8 @@ class EmployeeController extends Controller
         $employee->update($payloads);
 
         toast_success('Employee successfully updated!');
+
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -104,5 +108,7 @@ class EmployeeController extends Controller
         $employee->delete();
 
         toast_success('Employee successfully deleted!');
+
+        return redirect()->route('employees.index');
     }
 }

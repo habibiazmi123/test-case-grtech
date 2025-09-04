@@ -54,6 +54,8 @@ class CompanyController extends Controller
         Company::create($payloads);
 
         toast_success('Company successfully created!');
+
+        return redirect()->route('companies.index');
     }
 
     /**
@@ -77,6 +79,8 @@ class CompanyController extends Controller
         $company->update($payloads);
 
         toast_success('Company successfully updated!');
+
+        return redirect()->route('companies.index');
     }
 
     /**
@@ -92,5 +96,7 @@ class CompanyController extends Controller
         }
 
         toast_success('Company successfully deleted!');
+
+        return redirect()->route('companies.index');
     }
 }

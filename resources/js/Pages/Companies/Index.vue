@@ -72,10 +72,6 @@ const showConfirmDeletion = (company) => {
         onOk() {
             router.delete(route('companies.destroy', company.id), {
                 preserveScroll: true,
-                onFinish: () => {
-                    const { current_page, per_page } = props.companies.meta;
-                    fetchData({ page: current_page, per_page });
-                },
             });
         },
     });
@@ -223,7 +219,6 @@ const onEdit = (company) => {
             v-if="companyModalOpen"
             v-model:open="companyModalOpen"
             :company="selectedCompany"
-            @refresh="fetchData()"
         />
 
         <contextHolder />
